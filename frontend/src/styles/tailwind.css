@@ -1,0 +1,10 @@
+/* Tailwind CSS v4 - Simplified for Vite compatibility */
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
