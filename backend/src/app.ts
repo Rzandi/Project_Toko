@@ -8,6 +8,9 @@ import { errorHandler } from './middlewares/validation'
 
 const app = express()
 
+// Trust proxy - untuk Railway/production
+app.set('trust proxy', 1)
+
 // Basic middleware
 app.use(cors())
 app.use(express.json())
