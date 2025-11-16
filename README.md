@@ -6,6 +6,19 @@
 
 ---
 
+## 🎯 Live Demo
+
+🔗 **[Frontend App](https://rzandi.github.io/Project_Toko/)** - Full application hosted on GitHub Pages  
+🔗 **[API Demo & Testing](https://rzandi.github.io/Project_Toko/demo.html)** - Test backend endpoints
+
+### Test Account
+```
+Email: test@invoiceease.local
+Password: TestPass123!
+```
+
+---
+
 ## ✨ What's Complete ✅
 
 ### Core Infrastructure ✅
