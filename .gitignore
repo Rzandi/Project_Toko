@@ -16,11 +16,9 @@ yarn.lock
 *~
 .DS_Store
 
-# Build outputs
-dist/
-build/
-.next/
-out/
+# Build outputs (keep for GitHub Pages)
+# dist/
+# build/
 
 # Logs
 logs/
