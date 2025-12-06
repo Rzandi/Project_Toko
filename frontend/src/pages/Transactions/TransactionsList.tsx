@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useTransactions, Transaction, TransactionFilters as IFilters } from '../../hooks/useTransactions';
-import { TransactionFilters } from '../../components/Transactions/TransactionFilters';
-import { TransactionForm } from '../../components/Transactions/TransactionForm';
-import { TransactionTable } from '../../components/Transactions/TransactionTable';
-import { DeleteConfirmModal } from '../../components/Transactions/DeleteConfirmModal';
+import React, { useState, useEffect } from "react";
+import {
+  useTransactions,
+  Transaction,
+  TransactionFilters as IFilters,
+} from "../../hooks/useTransactions";
+import { TransactionFilters } from "../../components/Transactions/TransactionFilters";
+import { TransactionForm } from "../../components/Transactions/TransactionForm";
+import { TransactionTable } from "../../components/Transactions/TransactionTable";
+import { DeleteConfirmModal } from "../../components/Transactions/DeleteConfirmModal";
 
 export const TransactionsList: React.FC = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Transaction | null>(null);
   const [currentFilters, setCurrentFilters] = useState<IFilters>({
     skip: 0,
@@ -86,7 +91,10 @@ export const TransactionsList: React.FC = () => {
   };
 
   const handlePrevPage = async () => {
-    const newSkip = Math.max(0, (currentFilters.skip || 0) - (currentFilters.limit || 10));
+    const newSkip = Math.max(
+      0,
+      (currentFilters.skip || 0) - (currentFilters.limit || 10),
+    );
     const newFilters = { ...currentFilters, skip: newSkip };
     setCurrentFilters(newFilters);
     await fetchTransactions(newFilters);
@@ -96,7 +104,9 @@ export const TransactionsList: React.FC = () => {
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Transaksi</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Transaksi
+        </h1>
       </div>
 
       {/* Error Alert */}
@@ -156,8 +166,11 @@ export const TransactionsList: React.FC = () => {
       {pagination.pages > 1 && (
         <div className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 rounded-lg">
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            Menampilkan {(currentFilters.skip || 0) + 1} -{' '}
-            {Math.min((currentFilters.skip || 0) + (currentFilters.limit || 10), pagination.total)}{' '}
+            Menampilkan {(currentFilters.skip || 0) + 1} -{" "}
+            {Math.min(
+              (currentFilters.skip || 0) + (currentFilters.limit || 10),
+              pagination.total,
+            )}{" "}
             dari {pagination.total} transaksi
           </div>
           <div className="flex gap-2">
@@ -179,9 +192,11 @@ export const TransactionsList: React.FC = () => {
                     fetchTransactions(newFilters);
                   }}
                   className={`w-10 h-10 rounded-lg transition ${
-                    (currentFilters.skip || 0) / (currentFilters.limit || 10) === i
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
+                    (currentFilters.skip || 0) /
+                      (currentFilters.limit || 10) ===
+                    i
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   {i + 1}
@@ -190,7 +205,10 @@ export const TransactionsList: React.FC = () => {
             </div>
             <button
               onClick={handleNextPage}
-              disabled={(currentFilters.skip || 0) + (currentFilters.limit || 10) >= pagination.total}
+              disabled={
+                (currentFilters.skip || 0) + (currentFilters.limit || 10) >=
+                pagination.total
+              }
               className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 transition"
             >
               Selanjutnya →
@@ -206,7 +224,9 @@ export const TransactionsList: React.FC = () => {
           setFormOpen(false);
           setEditingTransaction(null);
         }}
-        onSubmit={editingTransaction ? handleUpdateTransaction : handleCreateTransaction}
+        onSubmit={
+          editingTransaction ? handleUpdateTransaction : handleCreateTransaction
+        }
         initialData={editingTransaction || undefined}
         loading={loading}
       />

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Transaction } from '../../hooks/useTransactions';
+import React from "react";
+import { Transaction } from "../../hooks/useTransactions";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -9,19 +9,19 @@ interface TransactionTableProps {
 }
 
 const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
     minimumFractionDigits: 0,
   }).format(amount);
 };
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('id-ID', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 };
 
@@ -105,22 +105,24 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold ${
-                      transaction.type === 'INCOME'
-                        ? 'bg-green-600 dark:bg-green-700'
-                        : 'bg-red-600 dark:bg-red-700'
+                      transaction.type === "INCOME"
+                        ? "bg-green-600 dark:bg-green-700"
+                        : "bg-red-600 dark:bg-red-700"
                     }`}
                   >
-                    {transaction.type === 'INCOME' ? 'Pemasukan' : 'Pengeluaran'}
+                    {transaction.type === "INCOME"
+                      ? "Pemasukan"
+                      : "Pengeluaran"}
                   </span>
                 </td>
                 <td
                   className={`px-6 py-4 whitespace-nowrap text-sm font-semibold text-right ${
-                    transaction.type === 'INCOME'
-                      ? 'text-green-600 dark:text-green-400'
-                      : 'text-red-600 dark:text-red-400'
+                    transaction.type === "INCOME"
+                      ? "text-green-600 dark:text-green-400"
+                      : "text-red-600 dark:text-red-400"
                   }`}
                 >
-                  {transaction.type === 'INCOME' ? '+' : '-'}
+                  {transaction.type === "INCOME" ? "+" : "-"}
                   {formatCurrency(transaction.amount)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">

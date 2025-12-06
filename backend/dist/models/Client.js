@@ -35,7 +35,12 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const ClientSchema = new mongoose_1.Schema({
-    user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', index: true, required: true },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        index: true,
+        required: true,
+    },
     name: { type: String, required: true, trim: true },
     email: { type: String, lowercase: true, trim: true },
     phone: { type: String },
@@ -44,10 +49,11 @@ const ClientSchema = new mongoose_1.Schema({
     avatarColor: { type: String },
     meta: {
         lastInvoiceAt: Date,
-        totalBilled: { type: Number, default: 0 }
+        totalBilled: { type: Number, default: 0 },
     },
-    isDeleted: { type: Boolean, default: false }
+    isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 // text index for quick search
-ClientSchema.index({ user: 1, name: 'text', email: 'text' });
-exports.default = mongoose_1.default.models.Client || mongoose_1.default.model('Client', ClientSchema);
+ClientSchema.index({ user: 1, name: "text", email: "text" });
+exports.default = mongoose_1.default.models.Client ||
+    mongoose_1.default.model("Client", ClientSchema);

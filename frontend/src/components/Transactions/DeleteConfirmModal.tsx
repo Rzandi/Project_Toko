@@ -1,5 +1,5 @@
-import React from 'react';
-import { Transaction } from '../../hooks/useTransactions';
+import React from "react";
+import { Transaction } from "../../hooks/useTransactions";
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
@@ -41,20 +41,20 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
                   {transaction.description}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {new Date(transaction.date).toLocaleDateString('id-ID')}
+                  {new Date(transaction.date).toLocaleDateString("id-ID")}
                 </p>
               </div>
               <span
                 className={`font-semibold ${
-                  transaction.type === 'INCOME'
-                    ? 'text-green-600 dark:text-green-400'
-                    : 'text-red-600 dark:text-red-400'
+                  transaction.type === "INCOME"
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
                 }`}
               >
-                {transaction.type === 'INCOME' ? '+' : '-'}
-                {new Intl.NumberFormat('id-ID', {
-                  style: 'currency',
-                  currency: 'IDR',
+                {transaction.type === "INCOME" ? "+" : "-"}
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
                   minimumFractionDigits: 0,
                 }).format(transaction.amount)}
               </span>

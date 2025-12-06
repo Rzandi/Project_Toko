@@ -35,11 +35,17 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const CounterSchema = new mongoose_1.Schema({
-    user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-    series: { type: String, default: 'default' },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+        index: true,
+    },
+    series: { type: String, default: "default" },
     year: { type: Number },
     month: { type: Number },
-    seq: { type: Number, default: 0 }
+    seq: { type: Number, default: 0 },
 }, { timestamps: true });
 CounterSchema.index({ user: 1, series: 1, year: 1, month: 1 }, { unique: true });
-exports.default = mongoose_1.default.models.Counter || mongoose_1.default.model('Counter', CounterSchema);
+exports.default = mongoose_1.default.models.Counter ||
+    mongoose_1.default.model("Counter", CounterSchema);

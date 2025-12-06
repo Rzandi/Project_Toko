@@ -38,24 +38,38 @@ const InvoiceItemSchema = new mongoose_1.Schema({
     desc: { type: String, required: true },
     qty: { type: Number, required: true, default: 1 },
     unitPrice: { type: Number, required: true },
-    taxPct: { type: Number, default: 0 }
+    taxPct: { type: Number, default: 0 },
 }, { _id: false });
 const InvoiceSchema = new mongoose_1.Schema({
-    user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+        index: true,
+    },
     number: { type: String, required: true, index: true },
     series: { type: String },
-    status: { type: String, enum: ['draft', 'sent', 'overdue', 'paid', 'partial'], default: 'draft' },
-    client: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Client' },
-    clientSnapshot: { name: String, email: String, address: String, phone: String },
+    status: {
+        type: String,
+        enum: ["draft", "sent", "overdue", "paid", "partial"],
+        default: "draft",
+    },
+    client: { type: mongoose_1.Schema.Types.ObjectId, ref: "Client" },
+    clientSnapshot: {
+        name: String,
+        email: String,
+        address: String,
+        phone: String,
+    },
     items: { type: [InvoiceItemSchema], default: [] },
     subtotal: { type: Number, default: 0 },
     tax: { type: Number, default: 0 },
     total: { type: Number, default: 0 },
-    currency: { type: String, default: 'IDR' },
+    currency: { type: String, default: "IDR" },
     issuedDate: { type: Date },
     dueDate: { type: Date },
     paidDate: { type: Date },
-    pdfUrl: { type: String }
+    pdfUrl: { type: String },
 }, { timestamps: true });
 // convenience method to compute totals
 InvoiceSchema.methods.computeTotals = function () {
@@ -66,7 +80,7 @@ InvoiceSchema.methods.computeTotals = function () {
     this.tax = tax;
     this.total = subtotal + tax;
 };
-InvoiceSchema.pre('save', function (next) {
+InvoiceSchema.pre("save", function (next) {
     // recalc totals before save
     // @ts-ignore
     if (this.items)
@@ -74,4 +88,5 @@ InvoiceSchema.pre('save', function (next) {
     next();
 });
 InvoiceSchema.index({ user: 1, number: 1 }, { unique: true });
-exports.default = mongoose_1.default.models.Invoice || mongoose_1.default.model('Invoice', InvoiceSchema);
+exports.default = mongoose_1.default.models.Invoice ||
+    mongoose_1.default.model("Invoice", InvoiceSchema);

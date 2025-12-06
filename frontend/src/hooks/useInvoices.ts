@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import api from '../services/api';
+import { useState, useCallback } from "react";
+import api from "../services/api";
 
 export interface LineItem {
   _id?: string;
@@ -25,7 +25,7 @@ export interface Invoice {
   subtotal: number;
   taxAmount: number;
   totalAmount: number;
-  status: 'draft' | 'sent' | 'paid';
+  status: "draft" | "sent" | "paid";
   currency: string;
   issuedDate: string;
   dueDate: string;
@@ -36,7 +36,7 @@ export interface Invoice {
 }
 
 export interface InvoiceFilters {
-  status?: 'draft' | 'sent' | 'paid' | '';
+  status?: "draft" | "sent" | "paid" | "";
   startDate?: string;
   endDate?: string;
   clientId?: string;
@@ -70,52 +70,55 @@ export const useInvoices = () => {
   });
 
   // Fetch invoices with filters
-  const fetchInvoices = useCallback(
-    async (filters: InvoiceFilters = {}) => {
-      setLoading(true);
-      setError(null);
-      try {
-        const params = new URLSearchParams();
+  const fetchInvoices = useCallback(async (filters: InvoiceFilters = {}) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams();
 
-        if (filters.status) params.append('status', filters.status);
-        if (filters.startDate) params.append('startDate', filters.startDate);
-        if (filters.endDate) params.append('endDate', filters.endDate);
-        if (filters.clientId) params.append('clientId', filters.clientId);
-        if (filters.skip !== undefined) params.append('skip', String(filters.skip));
-        if (filters.limit) params.append('limit', String(filters.limit));
+      if (filters.status) params.append("status", filters.status);
+      if (filters.startDate) params.append("startDate", filters.startDate);
+      if (filters.endDate) params.append("endDate", filters.endDate);
+      if (filters.clientId) params.append("clientId", filters.clientId);
+      if (filters.skip !== undefined)
+        params.append("skip", String(filters.skip));
+      if (filters.limit) params.append("limit", String(filters.limit));
 
-        const response = await api.get<InvoiceResponse>(
-          `/invoices?${params.toString()}`
+      const response = await api.get<InvoiceResponse>(
+        `/invoices?${params.toString()}`,
+      );
+
+      if (response.data.success) {
+        setInvoices(
+          Array.isArray(response.data.data) ? response.data.data : [],
         );
-
-        if (response.data.success) {
-          setInvoices(Array.isArray(response.data.data) ? response.data.data : []);
-          if (response.data.pagination) {
-            setPagination(response.data.pagination);
-          }
+        if (response.data.pagination) {
+          setPagination(response.data.pagination);
         }
-      } catch (err: any) {
-        const message =
-          err.response?.data?.message ||
-          err.message ||
-          'Gagal mengambil data invoice';
-        setError(message);
-      } finally {
-        setLoading(false);
       }
-    },
-    []
-  );
+    } catch (err: any) {
+      const message =
+        err.response?.data?.message ||
+        err.message ||
+        "Gagal mengambil data invoice";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   // Create new invoice
   const createInvoice = useCallback(
     async (
-      data: Omit<Invoice, '_id' | 'user' | 'invoiceNumber' | 'createdAt' | 'updatedAt'>
+      data: Omit<
+        Invoice,
+        "_id" | "user" | "invoiceNumber" | "createdAt" | "updatedAt"
+      >,
     ) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.post<InvoiceResponse>('/invoices', data);
+        const response = await api.post<InvoiceResponse>("/invoices", data);
 
         if (response.data.success) {
           const newInvoice = response.data.data as Invoice;
@@ -124,36 +127,39 @@ export const useInvoices = () => {
         }
       } catch (err: any) {
         const message =
-          err.response?.data?.message ||
-          err.message ||
-          'Gagal membuat invoice';
+          err.response?.data?.message || err.message || "Gagal membuat invoice";
         setError(message);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Update invoice
   const updateInvoice = useCallback(
     async (
       id: string,
-      data: Partial<Omit<Invoice, '_id' | 'user' | 'invoiceNumber' | 'createdAt' | 'updatedAt'>>
+      data: Partial<
+        Omit<
+          Invoice,
+          "_id" | "user" | "invoiceNumber" | "createdAt" | "updatedAt"
+        >
+      >,
     ) => {
       setLoading(true);
       setError(null);
       try {
         const response = await api.put<InvoiceResponse>(
           `/invoices/${id}`,
-          data
+          data,
         );
 
         if (response.data.success) {
           const updatedInvoice = response.data.data as Invoice;
           setInvoices((prev) =>
-            prev.map((inv) => (inv._id === id ? updatedInvoice : inv))
+            prev.map((inv) => (inv._id === id ? updatedInvoice : inv)),
           );
           return updatedInvoice;
         }
@@ -161,14 +167,14 @@ export const useInvoices = () => {
         const message =
           err.response?.data?.message ||
           err.message ||
-          'Gagal memperbarui invoice';
+          "Gagal memperbarui invoice";
         setError(message);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Delete invoice
@@ -176,9 +182,7 @@ export const useInvoices = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.delete<InvoiceResponse>(
-        `/invoices/${id}`
-      );
+      const response = await api.delete<InvoiceResponse>(`/invoices/${id}`);
 
       if (response.data.success) {
         setInvoices((prev) => prev.filter((inv) => inv._id !== id));
@@ -186,9 +190,7 @@ export const useInvoices = () => {
       }
     } catch (err: any) {
       const message =
-        err.response?.data?.message ||
-        err.message ||
-        'Gagal menghapus invoice';
+        err.response?.data?.message || err.message || "Gagal menghapus invoice";
       setError(message);
       throw err;
     } finally {
@@ -201,9 +203,7 @@ export const useInvoices = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get<InvoiceResponse>(
-        `/invoices/${id}`
-      );
+      const response = await api.get<InvoiceResponse>(`/invoices/${id}`);
 
       if (response.data.success) {
         return response.data.data as Invoice;
@@ -212,7 +212,7 @@ export const useInvoices = () => {
       const message =
         err.response?.data?.message ||
         err.message ||
-        'Gagal mengambil detail invoice';
+        "Gagal mengambil detail invoice";
       setError(message);
       throw err;
     } finally {
@@ -223,16 +223,14 @@ export const useInvoices = () => {
   // Get next invoice number
   const getNextInvoiceNumber = useCallback(async () => {
     try {
-      const response = await api.get<InvoiceResponse>(
-        '/invoices/number/next'
-      );
+      const response = await api.get<InvoiceResponse>("/invoices/number/next");
 
       if (response.data.success && response.data.invoiceNumber) {
         return response.data.invoiceNumber;
       }
-      return 'INV-001'; // Fallback
+      return "INV-001"; // Fallback
     } catch {
-      return 'INV-001'; // Fallback on error
+      return "INV-001"; // Fallback on error
     }
   }, []);
 
@@ -241,7 +239,7 @@ export const useInvoices = () => {
     (filters?: InvoiceFilters) => {
       return fetchInvoices(filters || {});
     },
-    [fetchInvoices]
+    [fetchInvoices],
   );
 
   return {

@@ -1,28 +1,36 @@
-import { Request, Response, NextFunction } from 'express'
-import Transaction from '../models/Transaction'
+import { Request, Response, NextFunction } from "express";
+import Transaction from "../models/Transaction";
 
-export const listTransactions = async (req: Request, res: Response, next: NextFunction) => {
+export const listTransactions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // @ts-ignore
-    const userId = req.userId
-    const skip = Number(req.query.skip || 0)
-    const limit = Number(req.query.limit || 10)
-    const startDate = req.query.startDate ? new Date(req.query.startDate as string) : null
-    const endDate = req.query.endDate ? new Date(req.query.endDate as string) : null
-    const type = req.query.type as string | undefined
-    const category = req.query.category as string | undefined
+    const userId = req.userId;
+    const skip = Number(req.query.skip || 0);
+    const limit = Number(req.query.limit || 10);
+    const startDate = req.query.startDate
+      ? new Date(req.query.startDate as string)
+      : null;
+    const endDate = req.query.endDate
+      ? new Date(req.query.endDate as string)
+      : null;
+    const type = req.query.type as string | undefined;
+    const category = req.query.category as string | undefined;
 
     // Build filter
-    const filter: any = { user: userId }
+    const filter: any = { user: userId };
     if (startDate && endDate) {
-      filter.date = { $gte: startDate, $lte: endDate }
+      filter.date = { $gte: startDate, $lte: endDate };
     }
-    if (type && type !== 'ALL') {
+    if (type && type !== "ALL") {
       // Accept both uppercase (frontend) and lowercase (DB) formats
-      filter.type = type.toUpperCase()
+      filter.type = type.toUpperCase();
     }
     if (category) {
-      filter.category = category
+      filter.category = category;
     }
 
     const [items, total] = await Promise.all([
@@ -31,10 +39,10 @@ export const listTransactions = async (req: Request, res: Response, next: NextFu
         .skip(skip)
         .limit(limit)
         .lean(),
-      Transaction.countDocuments(filter)
-    ])
+      Transaction.countDocuments(filter),
+    ]);
 
-    const pages = Math.ceil(total / limit)
+    const pages = Math.ceil(total / limit);
 
     res.json({
       success: true,
@@ -43,61 +51,77 @@ export const listTransactions = async (req: Request, res: Response, next: NextFu
         total,
         skip,
         limit,
-        pages
-      }
-    })
+        pages,
+      },
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-export const getTransaction = async (req: Request, res: Response, next: NextFunction) => {
+export const getTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // @ts-ignore
-    const userId = req.userId
-    const { id } = req.params
+    const userId = req.userId;
+    const { id } = req.params;
 
     const transaction = await Transaction.findOne({
       _id: id,
-      user: userId
-    })
+      user: userId,
+    });
 
     if (!transaction) {
-      return res.status(404).json({ success: false, message: 'Transaction not found' })
+      return res
+        .status(404)
+        .json({ success: false, message: "Transaction not found" });
     }
 
-    res.json({ success: true, data: transaction })
+    res.json({ success: true, data: transaction });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-export const createTransaction = async (req: Request, res: Response, next: NextFunction) => {
+export const createTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // @ts-ignore
-    const userId = req.userId
-    const payload = { ...req.body, user: userId }
-    const tx = await Transaction.create(payload)
-    res.status(201).json({ success: true, data: tx })
+    const userId = req.userId;
+    const payload = { ...req.body, user: userId };
+    const tx = await Transaction.create(payload);
+    res.status(201).json({ success: true, data: tx });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-export const updateTransaction = async (req: Request, res: Response, next: NextFunction) => {
+export const updateTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // @ts-ignore
-    const userId = req.userId
-    const { id } = req.params
+    const userId = req.userId;
+    const { id } = req.params;
 
     // Verify ownership
     const transaction = await Transaction.findOne({
       _id: id,
-      user: userId
-    })
+      user: userId,
+    });
 
     if (!transaction) {
-      return res.status(404).json({ success: false, message: 'Transaction not found' })
+      return res
+        .status(404)
+        .json({ success: false, message: "Transaction not found" });
     }
 
     // Update allowed fields only
@@ -107,37 +131,45 @@ export const updateTransaction = async (req: Request, res: Response, next: NextF
       amount: req.body.amount || transaction.amount,
       category: req.body.category || transaction.category,
       notes: req.body.notes || transaction.notes,
-      currency: req.body.currency || transaction.currency
-    }
+      currency: req.body.currency || transaction.currency,
+    };
 
-    const updated = await Transaction.findByIdAndUpdate(id, updateData, { new: true })
+    const updated = await Transaction.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
-    res.json({ success: true, data: updated })
+    res.json({ success: true, data: updated });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
-export const deleteTransaction = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     // @ts-ignore
-    const userId = req.userId
-    const { id } = req.params
+    const userId = req.userId;
+    const { id } = req.params;
 
     // Verify ownership
     const transaction = await Transaction.findOne({
       _id: id,
-      user: userId
-    })
+      user: userId,
+    });
 
     if (!transaction) {
-      return res.status(404).json({ success: false, message: 'Transaction not found' })
+      return res
+        .status(404)
+        .json({ success: false, message: "Transaction not found" });
     }
 
-    await Transaction.findByIdAndDelete(id)
+    await Transaction.findByIdAndDelete(id);
 
-    res.json({ success: true, message: 'Transaction deleted successfully' })
+    res.json({ success: true, message: "Transaction deleted successfully" });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};

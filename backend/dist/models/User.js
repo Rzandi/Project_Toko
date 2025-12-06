@@ -38,18 +38,29 @@ const BusinessSchema = new mongoose_1.Schema({
     name: { type: String },
     logoUrl: { type: String },
     address: { type: String },
-    npwp: { type: String }
+    npwp: { type: String },
 }, { _id: false });
 const UserSchema = new mongoose_1.Schema({
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+    },
     passwordHash: { type: String },
-    role: { type: String, enum: ['owner', 'accountant'], default: 'owner' },
+    role: { type: String, enum: ["owner", "accountant"], default: "owner" },
     business: { type: BusinessSchema, default: {} },
     settings: {
-        theme: { type: String, enum: ['light', 'dark', 'system'], default: 'system' },
-        lang: { type: String, default: 'id' },
-        currency: { type: String, default: 'IDR' }
-    }
+        theme: {
+            type: String,
+            enum: ["light", "dark", "system"],
+            default: "system",
+        },
+        lang: { type: String, default: "id" },
+        currency: { type: String, default: "IDR" },
+    },
 }, { timestamps: true });
 UserSchema.index({ email: 1 }, { unique: true });
-exports.default = mongoose_1.default.models.User || mongoose_1.default.model('User', UserSchema);
+exports.default = mongoose_1.default.models.User ||
+    mongoose_1.default.model("User", UserSchema);

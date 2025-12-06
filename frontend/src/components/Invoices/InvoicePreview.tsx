@@ -1,5 +1,5 @@
-import React from 'react';
-import { Invoice } from '../../hooks/useInvoices';
+import React from "react";
+import { Invoice } from "../../hooks/useInvoices";
 
 interface InvoicePreviewProps {
   isOpen: boolean;
@@ -10,19 +10,19 @@ interface InvoicePreviewProps {
 }
 
 const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
     minimumFractionDigits: 0,
   }).format(amount);
 };
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('id-ID', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
   });
 };
 
@@ -101,18 +101,18 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({
               </p>
               <span
                 className={`inline-block px-3 py-1 rounded-lg text-white font-semibold text-sm ${
-                  invoice.status === 'draft'
-                    ? 'bg-gray-600'
-                    : invoice.status === 'sent'
-                    ? 'bg-blue-600'
-                    : 'bg-green-600'
+                  invoice.status === "draft"
+                    ? "bg-gray-600"
+                    : invoice.status === "sent"
+                      ? "bg-blue-600"
+                      : "bg-green-600"
                 }`}
               >
-                {invoice.status === 'draft'
-                  ? 'Draft'
-                  : invoice.status === 'sent'
-                  ? 'Terkirim'
-                  : 'Dibayar'}
+                {invoice.status === "draft"
+                  ? "Draft"
+                  : invoice.status === "sent"
+                    ? "Terkirim"
+                    : "Dibayar"}
               </span>
             </div>
           </div>
@@ -150,7 +150,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({
                     </td>
                     <td className="px-4 py-3 text-right text-gray-900 dark:text-gray-100 font-semibold">
                       {formatCurrency(
-                        item.quantity * item.unitPrice * (1 + item.tax / 100)
+                        item.quantity * item.unitPrice * (1 + item.tax / 100),
                       )}
                     </td>
                   </tr>
@@ -217,7 +217,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({
             disabled={loading}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition disabled:opacity-50"
           >
-            {loading ? 'Mengunduh...' : '📥 Unduh PDF'}
+            {loading ? "Mengunduh..." : "📥 Unduh PDF"}
           </button>
         </div>
       </div>

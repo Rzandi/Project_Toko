@@ -12,7 +12,7 @@ const listInvoices = async (req, res, next) => {
     try {
         // @ts-ignore
         const userId = req.userId;
-        const { status, startDate, endDate, clientId, skip = 0, limit = 10 } = req.query;
+        const { status, startDate, endDate, clientId, skip = 0, limit = 10, } = req.query;
         const query = { user: userId };
         if (status)
             query.status = status;
@@ -26,7 +26,7 @@ const listInvoices = async (req, res, next) => {
         if (clientId)
             query.client = clientId;
         const items = await Invoice_1.default.find(query)
-            .populate('client')
+            .populate("client")
             .sort({ createdAt: -1 })
             .skip(Number(skip))
             .limit(Number(limit));
@@ -53,10 +53,10 @@ const createInvoice = async (req, res, next) => {
         const userId = req.userId;
         const { client, items, issuedDate, dueDate, currency, notes } = req.body;
         if (!client || !items || !Array.isArray(items) || items.length === 0) {
-            throw new validation_1.AppError(400, 'Invalid invoice data');
+            throw new validation_1.AppError(400, "Invalid invoice data");
         }
         let clientId;
-        if (typeof client === 'string') {
+        if (typeof client === "string") {
             clientId = client;
         }
         else if (client && client.name) {
@@ -64,14 +64,14 @@ const createInvoice = async (req, res, next) => {
             clientId = c._id;
         }
         if (!clientId)
-            throw new validation_1.AppError(400, 'Client is required');
+            throw new validation_1.AppError(400, "Client is required");
         // get counter for invoice numbering
         const now = new Date();
         const year = now.getUTCFullYear();
         const month = now.getUTCMonth() + 1;
-        const counter = await Counter_1.default.findOneAndUpdate({ user: userId, series: 'default', year, month }, { $inc: { seq: 1 } }, { upsert: true, new: true });
-        const seq = (counter.seq || 0).toString().padStart(4, '0');
-        const invoiceNumber = `INV-${year}-${String(month).padStart(2, '0')}-${seq}`;
+        const counter = await Counter_1.default.findOneAndUpdate({ user: userId, series: "default", year, month }, { $inc: { seq: 1 } }, { upsert: true, new: true });
+        const seq = (counter.seq || 0).toString().padStart(4, "0");
+        const invoiceNumber = `INV-${year}-${String(month).padStart(2, "0")}-${seq}`;
         // Map frontend field names to backend field names
         const mappedItems = items.map((item) => ({
             desc: item.description || item.desc,
@@ -86,11 +86,11 @@ const createInvoice = async (req, res, next) => {
             items: mappedItems,
             issuedDate: issuedDate || new Date(),
             dueDate: dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            currency: currency || 'IDR',
-            status: 'draft',
+            currency: currency || "IDR",
+            status: "draft",
         });
         // computeTotals is called by pre-save hook
-        const populated = await inv.populate('client');
+        const populated = await inv.populate("client");
         res.status(201).json({ success: true, data: populated });
     }
     catch (err) {
@@ -103,9 +103,9 @@ const getInvoice = async (req, res, next) => {
         // @ts-ignore
         const userId = req.userId;
         const { id } = req.params;
-        const inv = await Invoice_1.default.findById(id).populate('client');
+        const inv = await Invoice_1.default.findById(id).populate("client");
         if (!inv || inv.user.toString() !== userId) {
-            throw new validation_1.AppError(404, 'Invoice not found');
+            throw new validation_1.AppError(404, "Invoice not found");
         }
         res.json({ success: true, data: inv });
     }
@@ -122,10 +122,11 @@ const updateInvoice = async (req, res, next) => {
         const { client, items, issuedDate, dueDate, currency, notes, status } = req.body;
         const inv = await Invoice_1.default.findById(id);
         if (!inv || inv.user.toString() !== userId) {
-            throw new validation_1.AppError(404, 'Invoice not found');
+            throw new validation_1.AppError(404, "Invoice not found");
         }
-        if (status && !['draft', 'sent', 'paid', 'overdue', 'cancelled'].includes(status)) {
-            throw new validation_1.AppError(400, 'Invalid status');
+        if (status &&
+            !["draft", "sent", "paid", "overdue", "cancelled"].includes(status)) {
+            throw new validation_1.AppError(400, "Invalid status");
         }
         if (items && Array.isArray(items) && items.length > 0) {
             // Map frontend field names to backend field names
@@ -137,7 +138,7 @@ const updateInvoice = async (req, res, next) => {
             }));
             inv.items = mappedItems;
         }
-        if (client && typeof client === 'string')
+        if (client && typeof client === "string")
             inv.client = client;
         if (issuedDate)
             inv.issuedDate = new Date(issuedDate);
@@ -150,7 +151,7 @@ const updateInvoice = async (req, res, next) => {
         if (status)
             inv.status = status;
         await inv.save();
-        const populated = await inv.populate('client');
+        const populated = await inv.populate("client");
         res.json({ success: true, data: populated });
     }
     catch (err) {
@@ -165,10 +166,10 @@ const deleteInvoice = async (req, res, next) => {
         const { id } = req.params;
         const inv = await Invoice_1.default.findById(id);
         if (!inv || inv.user.toString() !== userId) {
-            throw new validation_1.AppError(404, 'Invoice not found');
+            throw new validation_1.AppError(404, "Invoice not found");
         }
         await Invoice_1.default.deleteOne({ _id: id });
-        res.json({ success: true, message: 'Invoice deleted successfully' });
+        res.json({ success: true, message: "Invoice deleted successfully" });
     }
     catch (err) {
         next(err);
@@ -182,9 +183,9 @@ const getNextInvoiceNumber = async (req, res, next) => {
         const now = new Date();
         const year = now.getUTCFullYear();
         const month = now.getUTCMonth() + 1;
-        const counter = await Counter_1.default.findOneAndUpdate({ user: userId, series: 'default', year, month }, { $inc: { seq: 1 } }, { upsert: true, new: true });
-        const seq = (counter.seq || 0).toString().padStart(4, '0');
-        const invoiceNumber = `INV-${year}-${String(month).padStart(2, '0')}-${seq}`;
+        const counter = await Counter_1.default.findOneAndUpdate({ user: userId, series: "default", year, month }, { $inc: { seq: 1 } }, { upsert: true, new: true });
+        const seq = (counter.seq || 0).toString().padStart(4, "0");
+        const invoiceNumber = `INV-${year}-${String(month).padStart(2, "0")}-${seq}`;
         res.json({ success: true, data: { invoiceNumber } });
     }
     catch (err) {

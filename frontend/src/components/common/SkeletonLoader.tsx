@@ -1,18 +1,18 @@
-import { motion } from 'framer-motion'
-import { pulse } from '../../utils/animations'
+import { motion } from "framer-motion";
+import { pulse } from "../../utils/animations";
 
 type SkeletonLoaderProps = {
-  width?: string
-  height?: string
-  borderRadius?: string
-  className?: string
-}
+  width?: string;
+  height?: string;
+  borderRadius?: string;
+  className?: string;
+};
 
 export default function SkeletonLoader({
-  width = 'w-full',
-  height = 'h-4',
-  borderRadius = 'rounded-md',
-  className = ''
+  width = "w-full",
+  height = "h-4",
+  borderRadius = "rounded-md",
+  className = "",
 }: SkeletonLoaderProps) {
   return (
     <motion.div
@@ -20,13 +20,13 @@ export default function SkeletonLoader({
       variants={pulse}
       animate="animate"
     />
-  )
+  );
 }
 
 type SkeletonTableProps = {
-  rows?: number
-  columns?: number
-}
+  rows?: number;
+  columns?: number;
+};
 
 export function SkeletonTable({ rows = 5, columns = 5 }: SkeletonTableProps) {
   return (
@@ -36,7 +36,7 @@ export function SkeletonTable({ rows = 5, columns = 5 }: SkeletonTableProps) {
           {Array.from({ length: columns }).map((_, colIdx) => (
             <SkeletonLoader
               key={colIdx}
-              width={colIdx === 0 ? 'w-1/3' : 'w-full'}
+              width={colIdx === 0 ? "w-1/3" : "w-full"}
               height="h-10"
               className="flex-1"
             />
@@ -44,12 +44,12 @@ export function SkeletonTable({ rows = 5, columns = 5 }: SkeletonTableProps) {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 type SkeletonFormProps = {
-  fields?: number
-}
+  fields?: number;
+};
 
 export function SkeletonForm({ fields = 4 }: SkeletonFormProps) {
   return (
@@ -60,7 +60,12 @@ export function SkeletonForm({ fields = 4 }: SkeletonFormProps) {
           <SkeletonLoader width="w-full" height="h-10" />
         </div>
       ))}
-      <SkeletonLoader width="w-1/4" height="h-10" borderRadius="rounded-lg" className="mt-6" />
+      <SkeletonLoader
+        width="w-1/4"
+        height="h-10"
+        borderRadius="rounded-lg"
+        className="mt-6"
+      />
     </div>
-  )
+  );
 }

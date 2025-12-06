@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import * as Yup from 'yup';
-import { Transaction } from '../../hooks/useTransactions';
+import React, { useState, useEffect } from "react";
+import * as Yup from "yup";
+import { Transaction } from "../../hooks/useTransactions";
 
 interface TransactionFormData {
   date: string;
-  type: 'INCOME' | 'EXPENSE';
+  type: "INCOME" | "EXPENSE";
   category: string;
   amount: string;
   description: string;
@@ -20,27 +20,27 @@ interface TransactionFormProps {
   loading?: boolean;
 }
 
-const CATEGORIES = ['Sales', 'Services', 'Expenses', 'Other'];
+const CATEGORIES = ["Sales", "Services", "Expenses", "Other"];
 const PAYMENT_METHODS = [
-  { value: 'BANK_TRANSFER', label: 'Transfer Bank' },
-  { value: 'CASH', label: 'Tunai' },
-  { value: 'CARD', label: 'Kartu Kredit' },
-  { value: 'CHEQUE', label: 'Cek' },
+  { value: "BANK_TRANSFER", label: "Transfer Bank" },
+  { value: "CASH", label: "Tunai" },
+  { value: "CARD", label: "Kartu Kredit" },
+  { value: "CHEQUE", label: "Cek" },
 ];
 
 const validationSchema = Yup.object({
-  date: Yup.string().required('Tanggal diperlukan'),
+  date: Yup.string().required("Tanggal diperlukan"),
   type: Yup.string()
-    .required('Tipe diperlukan')
-    .oneOf(['INCOME', 'EXPENSE'], 'Tipe harus Pemasukan atau Pengeluaran'),
-  category: Yup.string().required('Kategori diperlukan'),
+    .required("Tipe diperlukan")
+    .oneOf(["INCOME", "EXPENSE"], "Tipe harus Pemasukan atau Pengeluaran"),
+  category: Yup.string().required("Kategori diperlukan"),
   amount: Yup.number()
-    .required('Nominal diperlukan')
-    .min(1, 'Nominal harus lebih dari 0'),
+    .required("Nominal diperlukan")
+    .min(1, "Nominal harus lebih dari 0"),
   description: Yup.string()
-    .required('Deskripsi diperlukan')
-    .min(3, 'Deskripsi minimal 3 karakter'),
-  paymentMethod: Yup.string().required('Metode pembayaran diperlukan'),
+    .required("Deskripsi diperlukan")
+    .min(3, "Deskripsi minimal 3 karakter"),
+  paymentMethod: Yup.string().required("Metode pembayaran diperlukan"),
   notes: Yup.string(),
 });
 
@@ -52,13 +52,13 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   loading = false,
 }) => {
   const [formData, setFormData] = useState<TransactionFormData>({
-    date: new Date().toISOString().split('T')[0],
-    type: 'INCOME',
-    category: '',
-    amount: '',
-    description: '',
-    paymentMethod: 'BANK_TRANSFER',
-    notes: '',
+    date: new Date().toISOString().split("T")[0],
+    type: "INCOME",
+    category: "",
+    amount: "",
+    description: "",
+    paymentMethod: "BANK_TRANSFER",
+    notes: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -72,18 +72,18 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         category: initialData.category,
         amount: String(initialData.amount),
         description: initialData.description,
-        paymentMethod: initialData.paymentMethod || 'BANK_TRANSFER',
-        notes: initialData.notes || '',
+        paymentMethod: initialData.paymentMethod || "BANK_TRANSFER",
+        notes: initialData.notes || "",
       });
     } else {
       setFormData({
-        date: new Date().toISOString().split('T')[0],
-        type: 'INCOME',
-        category: '',
-        amount: '',
-        description: '',
-        paymentMethod: 'BANK_TRANSFER',
-        notes: '',
+        date: new Date().toISOString().split("T")[0],
+        type: "INCOME",
+        category: "",
+        amount: "",
+        description: "",
+        paymentMethod: "BANK_TRANSFER",
+        notes: "",
       });
     }
     setErrors({});
@@ -91,7 +91,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   }, [initialData, isOpen]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -102,7 +104,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
-        [name]: '',
+        [name]: "",
       }));
     }
   };
@@ -125,13 +127,13 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
       // Reset and close
       setFormData({
-        date: new Date().toISOString().split('T')[0],
-        type: 'INCOME',
-        category: '',
-        amount: '',
-        description: '',
-        paymentMethod: 'BANK_TRANSFER',
-        notes: '',
+        date: new Date().toISOString().split("T")[0],
+        type: "INCOME",
+        category: "",
+        amount: "",
+        description: "",
+        paymentMethod: "BANK_TRANSFER",
+        notes: "",
       });
       onClose();
     } catch (err: any) {
@@ -143,7 +145,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         });
         setErrors(errorMap);
       } else {
-        setSubmitError(err.message || 'Gagal menyimpan transaksi');
+        setSubmitError(err.message || "Gagal menyimpan transaksi");
       }
     }
   };
@@ -156,7 +158,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {initialData ? 'Edit Transaksi' : 'Tambah Transaksi'}
+            {initialData ? "Edit Transaksi" : "Tambah Transaksi"}
           </h2>
           <button
             onClick={onClose}
@@ -170,13 +172,18 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {submitError && (
             <div className="p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
-              <p className="text-sm text-red-600 dark:text-red-200">{submitError}</p>
+              <p className="text-sm text-red-600 dark:text-red-200">
+                {submitError}
+              </p>
             </div>
           )}
 
           {/* Date */}
           <div>
-            <label htmlFor="txn-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-date"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Tanggal <span className="text-red-500">*</span>
             </label>
             <input
@@ -187,8 +194,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.date
-                  ? 'border-red-500 dark:border-red-500'
-                  : 'border-gray-300 dark:border-gray-600'
+                  ? "border-red-500 dark:border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             />
             {errors.date && (
@@ -207,22 +214,26 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                   type="radio"
                   name="type"
                   value="INCOME"
-                  checked={formData.type === 'INCOME'}
+                  checked={formData.type === "INCOME"}
                   onChange={handleChange}
                   className="w-4 h-4"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Pemasukan</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  Pemasukan
+                </span>
               </label>
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
                   name="type"
                   value="EXPENSE"
-                  checked={formData.type === 'EXPENSE'}
+                  checked={formData.type === "EXPENSE"}
                   onChange={handleChange}
                   className="w-4 h-4"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Pengeluaran</span>
+                <span className="text-gray-700 dark:text-gray-300">
+                  Pengeluaran
+                </span>
               </label>
             </div>
             {errors.type && (
@@ -232,7 +243,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
           {/* Category */}
           <div>
-            <label htmlFor="txn-category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-category"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Kategori <span className="text-red-500">*</span>
             </label>
             <select
@@ -242,8 +256,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.category
-                  ? 'border-red-500 dark:border-red-500'
-                  : 'border-gray-300 dark:border-gray-600'
+                  ? "border-red-500 dark:border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             >
               <option value="">-- Pilih Kategori --</option>
@@ -260,7 +274,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
           {/* Amount */}
           <div>
-            <label htmlFor="txn-amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-amount"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Nominal <span className="text-red-500">*</span>
             </label>
             <input
@@ -274,8 +291,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               step="100"
               className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.amount
-                  ? 'border-red-500 dark:border-red-500'
-                  : 'border-gray-300 dark:border-gray-600'
+                  ? "border-red-500 dark:border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             />
             {errors.amount && (
@@ -285,7 +302,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
           {/* Description */}
           <div>
-            <label htmlFor="txn-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-description"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Deskripsi <span className="text-red-500">*</span>
             </label>
             <input
@@ -297,8 +317,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               placeholder="Contoh: Penjualan produk A"
               className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.description
-                  ? 'border-red-500 dark:border-red-500'
-                  : 'border-gray-300 dark:border-gray-600'
+                  ? "border-red-500 dark:border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             />
             {errors.description && (
@@ -308,7 +328,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
           {/* Payment Method */}
           <div>
-            <label htmlFor="txn-payment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-payment"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Metode Pembayaran <span className="text-red-500">*</span>
             </label>
             <select
@@ -318,8 +341,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.paymentMethod
-                  ? 'border-red-500 dark:border-red-500'
-                  : 'border-gray-300 dark:border-gray-600'
+                  ? "border-red-500 dark:border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             >
               {PAYMENT_METHODS.map((method) => (
@@ -329,13 +352,18 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               ))}
             </select>
             {errors.paymentMethod && (
-              <p className="text-sm text-red-500 mt-1">{errors.paymentMethod}</p>
+              <p className="text-sm text-red-500 mt-1">
+                {errors.paymentMethod}
+              </p>
             )}
           </div>
 
           {/* Notes */}
           <div>
-            <label htmlFor="txn-notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="txn-notes"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Catatan
             </label>
             <textarea
@@ -364,7 +392,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-blue-400 flex items-center justify-center gap-2"
             >
               {loading && <span className="animate-spin">⟳</span>}
-              {initialData ? 'Update' : 'Simpan'}
+              {initialData ? "Update" : "Simpan"}
             </button>
           </div>
         </form>

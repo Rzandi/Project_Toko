@@ -1,18 +1,21 @@
-import React from 'react'
-import { ChevronDown } from 'lucide-react'
+import React from "react";
+import { ChevronDown } from "lucide-react";
 
 interface SelectOption {
-  value: string | number
-  label: string
+  value: string | number;
+  label: string;
 }
 
-interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  label?: string
-  options: SelectOption[]
-  error?: string
-  helperText?: string
-  variant?: 'default' | 'floating'
-  size?: 'sm' | 'md' | 'lg'
+interface SelectProps extends Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "size"
+> {
+  label?: string;
+  options: SelectOption[];
+  error?: string;
+  helperText?: string;
+  variant?: "default" | "floating";
+  size?: "sm" | "md" | "lg";
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
@@ -22,18 +25,18 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       options,
       error,
       helperText,
-      variant = 'default',
-      size = 'md',
-      className = '',
+      variant = "default",
+      size = "md",
+      className = "",
       ...props
     },
-    ref
+    ref,
   ) => {
     const sizeClasses = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2.5 text-base',
-      lg: 'px-4 py-3 text-lg'
-    }
+      sm: "px-3 py-1.5 text-sm",
+      md: "px-4 py-2.5 text-base",
+      lg: "px-4 py-3 text-lg",
+    };
 
     const baseSelectClasses = `
       w-full rounded-lg transition-all duration-200 appearance-none
@@ -44,9 +47,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
       ${sizeClasses[size]}
       pr-10
-      ${error ? 'border-red-500 focus:ring-red-500' : ''}
+      ${error ? "border-red-500 focus:ring-red-500" : ""}
       ${className}
-    `
+    `;
 
     return (
       <div className="w-full">
@@ -56,11 +59,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           </label>
         )}
         <div className="relative">
-          <select
-            ref={ref}
-            {...props}
-            className={baseSelectClasses}
-          >
+          <select ref={ref} {...props} className={baseSelectClasses}>
             <option value="">Choose an option...</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -81,10 +80,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           </p>
         )}
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
-Select.displayName = 'Select'
+Select.displayName = "Select";
 
-export default Select
+export default Select;

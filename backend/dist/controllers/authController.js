@@ -14,11 +14,21 @@ const register = async (req, res, next) => {
         const { email, password, business } = req.body;
         const existing = await User_1.default.findOne({ email });
         if (existing)
-            throw new validation_1.AppError(409, 'Email already registered');
+            throw new validation_1.AppError(409, "Email already registered");
         const hash = password ? await bcryptjs_1.default.hash(password, 10) : undefined;
         const user = await User_1.default.create({ email, passwordHash: hash, business });
-        const accessToken = jsonwebtoken_1.default.sign({ sub: user._id }, config_1.default.jwtSecret, { expiresIn: config_1.default.jwtExpiresIn });
-        res.status(201).json({ success: true, data: { user: { id: user._id, email: user.email, business: user.business }, tokens: { accessToken } } });
+        const accessToken = jsonwebtoken_1.default.sign({ sub: user._id }, config_1.default.jwtSecret, {
+            expiresIn: config_1.default.jwtExpiresIn,
+        });
+        res
+            .status(201)
+            .json({
+            success: true,
+            data: {
+                user: { id: user._id, email: user.email, business: user.business },
+                tokens: { accessToken },
+            },
+        });
     }
     catch (err) {
         next(err);
@@ -30,12 +40,22 @@ const login = async (req, res, next) => {
         const { email, password } = req.body;
         const user = await User_1.default.findOne({ email });
         if (!user)
-            throw new validation_1.AppError(401, 'Invalid credentials');
-        const ok = user.passwordHash ? await bcryptjs_1.default.compare(password, user.passwordHash) : false;
+            throw new validation_1.AppError(401, "Invalid credentials");
+        const ok = user.passwordHash
+            ? await bcryptjs_1.default.compare(password, user.passwordHash)
+            : false;
         if (!ok)
-            throw new validation_1.AppError(401, 'Invalid credentials');
-        const accessToken = jsonwebtoken_1.default.sign({ sub: user._id }, config_1.default.jwtSecret, { expiresIn: config_1.default.jwtExpiresIn });
-        res.json({ success: true, data: { user: { id: user._id, email: user.email, business: user.business }, tokens: { accessToken } } });
+            throw new validation_1.AppError(401, "Invalid credentials");
+        const accessToken = jsonwebtoken_1.default.sign({ sub: user._id }, config_1.default.jwtSecret, {
+            expiresIn: config_1.default.jwtExpiresIn,
+        });
+        res.json({
+            success: true,
+            data: {
+                user: { id: user._id, email: user.email, business: user.business },
+                tokens: { accessToken },
+            },
+        });
     }
     catch (err) {
         next(err);
@@ -46,9 +66,9 @@ const me = async (req, res, next) => {
     try {
         // @ts-ignore
         const userId = req.userId;
-        const user = await User_1.default.findById(userId).select('-passwordHash');
+        const user = await User_1.default.findById(userId).select("-passwordHash");
         if (!user)
-            throw new validation_1.AppError(404, 'User not found');
+            throw new validation_1.AppError(404, "User not found");
         res.json({ success: true, data: user });
     }
     catch (err) {

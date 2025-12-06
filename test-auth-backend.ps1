@@ -1,4 +1,3 @@
-#!/usr/bin/env pwsh
 
 <#
 .SYNOPSIS
@@ -36,8 +35,8 @@ Write-Host "TEST 1: Register New User"
 Write-Host "---"
 try {
     $registerBody = @{
-        email = $testEmail
-        password = $testPassword
+        email        = $testEmail
+        password     = $testPassword
         businessName = $testBusinessName
     } | ConvertTo-Json
     
@@ -75,7 +74,7 @@ Write-Host "TEST 2: Login with Registered User"
 Write-Host "---"
 try {
     $loginBody = @{
-        email = $testEmail
+        email    = $testEmail
         password = $testPassword
     } | ConvertTo-Json
     
@@ -118,8 +117,8 @@ try {
         -Uri "$baseUrl/auth/me" `
         -Method GET `
         -Headers @{
-            "Authorization" = "Bearer $loginToken"
-        } `
+        "Authorization" = "Bearer $loginToken"
+    } `
         -TimeoutSec 5
     
     Write-Host "✓ Status: 200 OK"
@@ -138,7 +137,7 @@ Write-Host "TEST 4: Login Failure (Wrong Password)"
 Write-Host "---"
 try {
     $wrongBody = @{
-        email = $testEmail
+        email    = $testEmail
         password = "wrongpassword"
     } | ConvertTo-Json
     
@@ -159,7 +158,8 @@ catch {
     if ($_.Exception.Response.StatusCode -eq 401) {
         Write-Host "✓ Status: 401 Unauthorized (as expected)"
         Write-Host "✓ Error correctly returned for wrong password"
-    } else {
+    }
+    else {
         Write-Host "? Unexpected status: $($_.Exception.Response.StatusCode)"
     }
     Write-Host ""
@@ -184,7 +184,8 @@ catch {
     if ($_.Exception.Response.StatusCode -eq 401) {
         Write-Host "✓ Status: 401 Unauthorized (as expected)"
         Write-Host "✓ Endpoint correctly requires authentication"
-    } else {
+    }
+    else {
         Write-Host "? Unexpected status: $($_.Exception.Response.StatusCode)"
     }
     Write-Host ""

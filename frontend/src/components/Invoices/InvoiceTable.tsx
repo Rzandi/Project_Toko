@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Invoice } from '../../hooks/useInvoices';
-import AnimatedTableRow, { AnimatedTable } from '../common/AnimatedTable';
-import { SkeletonTable } from '../common/SkeletonLoader';
-import { staggerContainer } from '../../utils/animations';
+import React from "react";
+import { motion } from "framer-motion";
+import { Invoice } from "../../hooks/useInvoices";
+import AnimatedTableRow, { AnimatedTable } from "../common/AnimatedTable";
+import { SkeletonTable } from "../common/SkeletonLoader";
+import { staggerContainer } from "../../utils/animations";
 
 interface InvoiceTableProps {
   invoices: Invoice[];
@@ -14,43 +14,43 @@ interface InvoiceTableProps {
 }
 
 const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
     minimumFractionDigits: 0,
   }).format(amount);
 };
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('id-ID', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 };
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'draft':
-      return 'bg-gray-600 dark:bg-gray-700';
-    case 'sent':
-      return 'bg-blue-600 dark:bg-blue-700';
-    case 'paid':
-      return 'bg-green-600 dark:bg-green-700';
+    case "draft":
+      return "bg-gray-600 dark:bg-gray-700";
+    case "sent":
+      return "bg-blue-600 dark:bg-blue-700";
+    case "paid":
+      return "bg-green-600 dark:bg-green-700";
     default:
-      return 'bg-gray-600 dark:bg-gray-700';
+      return "bg-gray-600 dark:bg-gray-700";
   }
 };
 
 const getStatusLabel = (status: string) => {
   switch (status) {
-    case 'draft':
-      return 'Draft';
-    case 'sent':
-      return 'Terkirim';
-    case 'paid':
-      return 'Dibayar';
+    case "draft":
+      return "Draft";
+    case "sent":
+      return "Terkirim";
+    case "paid":
+      return "Dibayar";
     default:
       return status;
   }
@@ -146,7 +146,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold ${getStatusColor(
-                      invoice.status
+                      invoice.status,
                     )}`}
                   >
                     {getStatusLabel(invoice.status)}

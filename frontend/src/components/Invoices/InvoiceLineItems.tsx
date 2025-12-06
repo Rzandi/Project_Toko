@@ -1,5 +1,5 @@
-import React from 'react';
-import { LineItem } from '../../hooks/useInvoices';
+import React from "react";
+import { LineItem } from "../../hooks/useInvoices";
 
 interface InvoiceLineItemsProps {
   items: LineItem[];
@@ -14,7 +14,7 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
 }) => {
   const handleAddItem = () => {
     const newItem: LineItem = {
-      description: '',
+      description: "",
       quantity: 1,
       unitPrice: 0,
       tax: 0,
@@ -33,7 +33,7 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
   const handleItemChange = (
     index: number,
     field: keyof LineItem,
-    value: any
+    value: any,
   ) => {
     const updatedItems = [...items];
     updatedItems[index] = {
@@ -115,7 +115,7 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
                       type="text"
                       value={item.description}
                       onChange={(e) =>
-                        handleItemChange(index, 'description', e.target.value)
+                        handleItemChange(index, "description", e.target.value)
                       }
                       placeholder="Deskripsi item"
                       className="w-full px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
@@ -130,7 +130,11 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
                       min="1"
                       value={item.quantity}
                       onChange={(e) =>
-                        handleItemChange(index, 'quantity', Number(e.target.value))
+                        handleItemChange(
+                          index,
+                          "quantity",
+                          Number(e.target.value),
+                        )
                       }
                       className="w-full px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-right outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -144,7 +148,11 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
                       min="0"
                       value={item.unitPrice}
                       onChange={(e) =>
-                        handleItemChange(index, 'unitPrice', Number(e.target.value))
+                        handleItemChange(
+                          index,
+                          "unitPrice",
+                          Number(e.target.value),
+                        )
                       }
                       className="w-full px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-right outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -159,13 +167,13 @@ export const InvoiceLineItems: React.FC<InvoiceLineItemsProps> = ({
                       max="100"
                       value={item.tax}
                       onChange={(e) =>
-                        handleItemChange(index, 'tax', Number(e.target.value))
+                        handleItemChange(index, "tax", Number(e.target.value))
                       }
                       className="w-full px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-right outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </td>
                   <td className="px-4 py-3 text-right text-gray-900 dark:text-white font-semibold">
-                    {(subtotal + taxAmount).toLocaleString('id-ID')}
+                    {(subtotal + taxAmount).toLocaleString("id-ID")}
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button

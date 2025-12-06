@@ -1,18 +1,18 @@
-import React from 'react'
-import { Controller, Control, FieldValues, Path } from 'react-hook-form'
-import { AlertCircle } from 'lucide-react'
-import Input from './Input'
+import React from "react";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import { AlertCircle } from "lucide-react";
+import Input from "./Input";
 
 interface FormInputProps<T extends FieldValues> {
-  name: Path<T>
-  control: Control<T>
-  label?: string
-  placeholder?: string
-  type?: string
-  error?: string
-  helperText?: string
-  icon?: React.ReactNode
-  required?: boolean
+  name: Path<T>;
+  control: Control<T>;
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  error?: string;
+  helperText?: string;
+  icon?: React.ReactNode;
+  required?: boolean;
 }
 
 export function FormInput<T extends FieldValues>({
@@ -20,11 +20,11 @@ export function FormInput<T extends FieldValues>({
   control,
   label,
   placeholder,
-  type = 'text',
+  type = "text",
   error,
   helperText,
   icon,
-  required = false
+  required = false,
 }: FormInputProps<T>) {
   return (
     <Controller
@@ -44,7 +44,7 @@ export function FormInput<T extends FieldValues>({
         />
       )}
     />
-  )
+  );
 }
 
-export default FormInput
+export default FormInput;

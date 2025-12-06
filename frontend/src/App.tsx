@@ -1,16 +1,16 @@
-import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
-import { AuthProvider } from './contexts/AuthContext'
-import ProtectedRoute from './components/ProtectedRoute'
-import PageShell from './components/layout/PageShell'
-import DashboardHome from './pages/DashboardHome'
-import TransactionsList from './pages/TransactionsList'
-import InvoicesList from './pages/Invoices/InvoicesListNew'
-import ClientsList from './pages/Clients/ClientsList'
-import SettingsPage from './pages/Settings/SettingsPage'
-import Login from './pages/auth/Login'
-import Register from './pages/auth/Register'
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PageShell from "./components/layout/PageShell";
+import DashboardHome from "./pages/DashboardHome";
+import TransactionsList from "./pages/TransactionsList";
+import InvoicesList from "./pages/Invoices/InvoicesListNew";
+import ClientsList from "./pages/Clients/ClientsList";
+import SettingsPage from "./pages/Settings/SettingsPage";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 export default function App() {
   return (
@@ -41,5 +41,5 @@ export default function App() {
         />
       </Routes>
     </AuthProvider>
-  )
+  );
 }

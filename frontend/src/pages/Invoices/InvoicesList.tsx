@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   InvoiceTable,
   InvoiceForm,
   InvoicePreview,
   InvoiceFilters,
-} from '../../components/Invoices';
-import { useInvoices, Invoice, InvoiceFilters as IFilters } from '../../hooks/useInvoices';
-import { toastService } from '../../services/toastService';
-import AnimatedButton from '../../components/common/AnimatedButton';
-import { fadeInUp, staggerContainer, staggerItem } from '../../utils/animations';
+} from "../../components/Invoices";
+import {
+  useInvoices,
+  Invoice,
+  InvoiceFilters as IFilters,
+} from "../../hooks/useInvoices";
+import { toastService } from "../../services/toastService";
+import AnimatedButton from "../../components/common/AnimatedButton";
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+} from "../../utils/animations";
 
 export default function InvoicesList() {
   const {
@@ -35,7 +43,7 @@ export default function InvoicesList() {
     skip: 0,
     limit: 10,
   });
-  const [nextInvoiceNumber, setNextInvoiceNumber] = useState('INV-001');
+  const [nextInvoiceNumber, setNextInvoiceNumber] = useState("INV-001");
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   // Load invoices on component mount
@@ -73,15 +81,20 @@ export default function InvoicesList() {
     if (!deleteTarget) return;
     setDeleteLoading(true);
     try {
-      const loadingToastId = toastService.loading('Menghapus invoice...');
+      const loadingToastId = toastService.loading("Menghapus invoice...");
       await deleteInvoice(deleteTarget._id);
-      toastService.updateLoading(loadingToastId, 'Invoice berhasil dihapus!', 'success');
+      toastService.updateLoading(
+        loadingToastId,
+        "Invoice berhasil dihapus!",
+        "success",
+      );
       setDeleteConfirmOpen(false);
       setDeleteTarget(null);
       // Refetch with current filters
       await fetchInvoices(currentFilters);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Gagal menghapus invoice';
+      const errorMessage =
+        err.response?.data?.message || "Gagal menghapus invoice";
       toastService.error(errorMessage);
     } finally {
       setDeleteLoading(false);
@@ -89,38 +102,54 @@ export default function InvoicesList() {
   };
 
   const handleCreateInvoice = async (
-    data: Omit<Invoice, '_id' | 'user' | 'invoiceNumber' | 'createdAt' | 'updatedAt'>
+    data: Omit<
+      Invoice,
+      "_id" | "user" | "invoiceNumber" | "createdAt" | "updatedAt"
+    >,
   ) => {
     try {
-      const loadingToastId = toastService.loading('Membuat invoice...');
+      const loadingToastId = toastService.loading("Membuat invoice...");
       await createInvoice(data);
-      toastService.updateLoading(loadingToastId, 'Invoice berhasil dibuat!', 'success');
+      toastService.updateLoading(
+        loadingToastId,
+        "Invoice berhasil dibuat!",
+        "success",
+      );
       setFormOpen(false);
       setEditingInvoice(null);
       loadNextInvoiceNumber();
       // Refetch with current filters
       await fetchInvoices(currentFilters);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Gagal membuat invoice';
+      const errorMessage =
+        err.response?.data?.message || "Gagal membuat invoice";
       toastService.error(errorMessage);
       throw err;
     }
   };
 
   const handleUpdateInvoice = async (
-    data: Omit<Invoice, '_id' | 'user' | 'invoiceNumber' | 'createdAt' | 'updatedAt'>
+    data: Omit<
+      Invoice,
+      "_id" | "user" | "invoiceNumber" | "createdAt" | "updatedAt"
+    >,
   ) => {
     if (!editingInvoice) return;
     try {
-      const loadingToastId = toastService.loading('Memperbarui invoice...');
+      const loadingToastId = toastService.loading("Memperbarui invoice...");
       await updateInvoice(editingInvoice._id, data);
-      toastService.updateLoading(loadingToastId, 'Invoice berhasil diperbarui!', 'success');
+      toastService.updateLoading(
+        loadingToastId,
+        "Invoice berhasil diperbarui!",
+        "success",
+      );
       setFormOpen(false);
       setEditingInvoice(null);
       // Refetch with current filters
       await fetchInvoices(currentFilters);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Gagal memperbarui invoice';
+      const errorMessage =
+        err.response?.data?.message || "Gagal memperbarui invoice";
       toastService.error(errorMessage);
       throw err;
     }
@@ -145,7 +174,10 @@ export default function InvoicesList() {
   const handlePrevPage = async () => {
     const newFilters = {
       ...currentFilters,
-      skip: Math.max(0, (currentFilters.skip || 0) - (currentFilters.limit || 10)),
+      skip: Math.max(
+        0,
+        (currentFilters.skip || 0) - (currentFilters.limit || 10),
+      ),
     };
     setCurrentFilters(newFilters);
     await fetchInvoices(newFilters);
@@ -160,7 +192,8 @@ export default function InvoicesList() {
     await fetchInvoices(newFilters);
   };
 
-  const currentPage = Math.floor((currentFilters.skip || 0) / (currentFilters.limit || 10)) + 1;
+  const currentPage =
+    Math.floor((currentFilters.skip || 0) / (currentFilters.limit || 10)) + 1;
 
   return (
     <motion.div
@@ -170,8 +203,13 @@ export default function InvoicesList() {
       animate="visible"
     >
       {/* Page Header */}
-      <motion.div className="flex justify-between items-center" variants={staggerItem}>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Invoice</h1>
+      <motion.div
+        className="flex justify-between items-center"
+        variants={staggerItem}
+      >
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Invoice
+        </h1>
         <AnimatedButton
           onClick={handleOpenCreateForm}
           variant="primary"
@@ -218,9 +256,10 @@ export default function InvoicesList() {
             exit="exit"
           >
             <p className="text-sm text-blue-700 dark:text-blue-200">
-              Menampilkan hasil dengan filter:{' '}
+              Menampilkan hasil dengan filter:{" "}
               {currentFilters.status && `Status: ${currentFilters.status}`}
-              {currentFilters.startDate && ` | Dari: ${currentFilters.startDate}`}
+              {currentFilters.startDate &&
+                ` | Dari: ${currentFilters.startDate}`}
               {currentFilters.endDate && ` | Sampai: ${currentFilters.endDate}`}
             </p>
           </motion.div>
@@ -254,21 +293,23 @@ export default function InvoicesList() {
           </AnimatedButton>
 
           <div className="flex gap-1">
-            {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
-              <motion.button
-                key={page}
-                onClick={() => handlePageClick(page)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-3 py-2 rounded-lg font-medium transition ${
-                  page === currentPage
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600'
-                }`}
-              >
-                {page}
-              </motion.button>
-            ))}
+            {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(
+              (page) => (
+                <motion.button
+                  key={page}
+                  onClick={() => handlePageClick(page)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-3 py-2 rounded-lg font-medium transition ${
+                    page === currentPage
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600"
+                  }`}
+                >
+                  {page}
+                </motion.button>
+              ),
+            )}
           </div>
 
           <AnimatedButton
@@ -305,7 +346,7 @@ export default function InvoicesList() {
         }}
         onDownloadPDF={async () => {
           // To be implemented in Phase 5.5
-          alert('PDF download coming soon!');
+          alert("PDF download coming soon!");
         }}
       />
 
@@ -329,14 +370,14 @@ export default function InvoicesList() {
                 Hapus Invoice?
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Invoice <strong>{deleteTarget.invoiceNumber}</strong> akan dihapus secara
-                permanen. Aksi ini tidak dapat dibatalkan.
+                Invoice <strong>{deleteTarget.invoiceNumber}</strong> akan
+                dihapus secara permanen. Aksi ini tidak dapat dibatalkan.
               </p>
 
               <div className="bg-red-50 dark:bg-red-900 p-3 rounded-lg mb-6">
                 <p className="text-sm text-red-700 dark:text-red-200">
-                  <strong>Detail:</strong> {deleteTarget.client.name} -{' '}
-                  {deleteTarget.totalAmount.toLocaleString('id-ID')} IDR
+                  <strong>Detail:</strong> {deleteTarget.client.name} -{" "}
+                  {deleteTarget.totalAmount.toLocaleString("id-ID")} IDR
                 </p>
               </div>
 

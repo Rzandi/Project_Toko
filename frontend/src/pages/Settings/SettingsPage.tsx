@@ -1,36 +1,36 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Save, User, Lock, Bell, Palette, LogOut, Upload } from 'lucide-react'
-import { Button } from '../../components/ui/Button'
-import { Card } from '../../components/ui/Card'
-import { Input } from '../../components/ui/Input'
-import { Select } from '../../components/ui/Select'
-import toast from 'react-hot-toast'
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Save, User, Lock, Bell, Palette, LogOut, Upload } from "lucide-react";
+import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
+import { Input } from "../../components/ui/Input";
+import { Select } from "../../components/ui/Select";
+import toast from "react-hot-toast";
 
 interface BusinessProfile {
-  businessName: string
-  businessEmail: string
-  businessPhone: string
-  businessAddress: string
-  businessCity: string
-  businessPostalCode: string
-  taxId: string
-  bankName: string
-  bankAccount: string
+  businessName: string;
+  businessEmail: string;
+  businessPhone: string;
+  businessAddress: string;
+  businessCity: string;
+  businessPostalCode: string;
+  taxId: string;
+  bankName: string;
+  bankAccount: string;
 }
 
 interface UserSettings {
-  fullName: string
-  email: string
-  phone: string
-  role: string
+  fullName: string;
+  email: string;
+  phone: string;
+  role: string;
 }
 
 interface NotificationSettings {
-  emailNotifications: boolean
-  invoiceReminders: boolean
-  paymentNotifications: boolean
-  newsletterSubscription: boolean
+  emailNotifications: boolean;
+  invoiceReminders: boolean;
+  paymentNotifications: boolean;
+  newsletterSubscription: boolean;
 }
 
 const SettingSection = ({ icon: Icon, title, description, children }: any) => (
@@ -50,82 +50,89 @@ const SettingSection = ({ icon: Icon, title, description, children }: any) => (
     </div>
     {children}
   </Card>
-)
+);
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'notifications' | 'appearance'>('profile')
-  const [isSaving, setIsSaving] = useState(false)
+  const [activeTab, setActiveTab] = useState<
+    "profile" | "account" | "notifications" | "appearance"
+  >("profile");
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Business Profile
+  // Business Profile - empty for live demo, user will fill in their own data
   const [businessProfile, setBusinessProfile] = useState<BusinessProfile>({
-    businessName: 'PT Maju Jaya Indonesia',
-    businessEmail: 'accounting@majujaya.com',
-    businessPhone: '+62 812 3456 7890',
-    businessAddress: 'Jl. Sudirman No. 123',
-    businessCity: 'Jakarta',
-    businessPostalCode: '12345',
-    taxId: '01.234.567.8-012.000',
-    bankName: 'Bank Mandiri',
-    bankAccount: '1234567890'
-  })
+    businessName: "",
+    businessEmail: "",
+    businessPhone: "",
+    businessAddress: "",
+    businessCity: "",
+    businessPostalCode: "",
+    taxId: "",
+    bankName: "",
+    bankAccount: "",
+  });
 
-  // User Settings
+  // User Settings - empty for live demo, loaded from auth context
   const [userSettings, setUserSettings] = useState<UserSettings>({
-    fullName: 'John Doe',
-    email: 'john@majujaya.com',
-    phone: '+62 812 9876 5432',
-    role: 'Admin'
-  })
+    fullName: "",
+    email: "",
+    phone: "",
+    role: "User",
+  });
 
   // Notification Settings
-  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
-    emailNotifications: true,
-    invoiceReminders: true,
-    paymentNotifications: true,
-    newsletterSubscription: false
-  })
+  const [notificationSettings, setNotificationSettings] =
+    useState<NotificationSettings>({
+      emailNotifications: true,
+      invoiceReminders: true,
+      paymentNotifications: true,
+      newsletterSubscription: false,
+    });
 
   // Theme
-  const [theme, setTheme] = useState('auto')
-  const [language, setLanguage] = useState('id')
+  const [theme, setTheme] = useState("auto");
+  const [language, setLanguage] = useState("id");
 
   const handleSave = async () => {
-    setIsSaving(true)
+    setIsSaving(true);
     // Simulate save
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setIsSaving(false)
-    toast.success('Pengaturan berhasil disimpan')
-  }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsSaving(false);
+    toast.success("Pengaturan berhasil disimpan");
+  };
 
   const handleLogout = () => {
-    toast.success('Berhasil logout')
+    toast.success("Berhasil logout");
     // Redirect to login
-    window.location.href = '/auth/login'
-  }
+    window.location.href = "/auth/login";
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Pengaturan</h1>
-        <p className="text-slate-600 dark:text-slate-400 mt-1">Kelola profil dan preferensi Anda</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+          Pengaturan
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-1">
+          Kelola profil dan preferensi Anda
+        </p>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700 overflow-x-auto">
         {[
-          { id: 'profile' as const, label: 'Profil Bisnis', icon: '🏢' },
-          { id: 'account' as const, label: 'Akun', icon: '👤' },
-          { id: 'notifications' as const, label: 'Notifikasi', icon: '🔔' },
-          { id: 'appearance' as const, label: 'Tampilan', icon: '🎨' }
-        ].map(tab => (
+          { id: "profile" as const, label: "Profil Bisnis", icon: "🏢" },
+          { id: "account" as const, label: "Akun", icon: "👤" },
+          { id: "notifications" as const, label: "Notifikasi", icon: "🔔" },
+          { id: "appearance" as const, label: "Tampilan", icon: "🎨" },
+        ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-3 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
               activeTab === tab.id
-                ? 'border-rose-500 text-rose-600 dark:text-rose-400'
-                : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? "border-rose-500 text-rose-600 dark:text-rose-400"
+                : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <span className="mr-2">{tab.icon}</span>
@@ -143,7 +150,7 @@ export default function SettingsPage() {
         className="space-y-6"
       >
         {/* Business Profile Tab */}
-        {activeTab === 'profile' && (
+        {activeTab === "profile" && (
           <div className="space-y-6">
             <SettingSection
               icon={User}
@@ -155,39 +162,69 @@ export default function SettingsPage() {
                   label="Nama Bisnis"
                   placeholder="Nama perusahaan"
                   value={businessProfile.businessName}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, businessName: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      businessName: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Email Bisnis"
                   type="email"
                   placeholder="email@perusahaan.com"
                   value={businessProfile.businessEmail}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, businessEmail: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      businessEmail: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Telepon Bisnis"
                   placeholder="+62 812 3456 7890"
                   value={businessProfile.businessPhone}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, businessPhone: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      businessPhone: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Alamat"
                   placeholder="Jalan, nomor"
                   value={businessProfile.businessAddress}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, businessAddress: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      businessAddress: e.target.value,
+                    })
+                  }
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     label="Kota"
                     placeholder="Jakarta"
                     value={businessProfile.businessCity}
-                    onChange={(e) => setBusinessProfile({ ...businessProfile, businessCity: e.target.value })}
+                    onChange={(e) =>
+                      setBusinessProfile({
+                        ...businessProfile,
+                        businessCity: e.target.value,
+                      })
+                    }
                   />
                   <Input
                     label="Kode Pos"
                     placeholder="12345"
                     value={businessProfile.businessPostalCode}
-                    onChange={(e) => setBusinessProfile({ ...businessProfile, businessPostalCode: e.target.value })}
+                    onChange={(e) =>
+                      setBusinessProfile({
+                        ...businessProfile,
+                        businessPostalCode: e.target.value,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -203,19 +240,34 @@ export default function SettingsPage() {
                   label="Nomor NPWP"
                   placeholder="XX.XXX.XXX.X-XXX.000"
                   value={businessProfile.taxId}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, taxId: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      taxId: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Nama Bank"
                   placeholder="Bank Mandiri"
                   value={businessProfile.bankName}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, bankName: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      bankName: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Nomor Rekening"
                   placeholder="1234567890"
                   value={businessProfile.bankAccount}
-                  onChange={(e) => setBusinessProfile({ ...businessProfile, bankAccount: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessProfile({
+                      ...businessProfile,
+                      bankAccount: e.target.value,
+                    })
+                  }
                 />
               </div>
             </SettingSection>
@@ -223,7 +275,7 @@ export default function SettingsPage() {
         )}
 
         {/* Account Tab */}
-        {activeTab === 'account' && (
+        {activeTab === "account" && (
           <div className="space-y-6">
             <SettingSection
               icon={User}
@@ -235,20 +287,29 @@ export default function SettingsPage() {
                   label="Nama Lengkap"
                   placeholder="Nama Anda"
                   value={userSettings.fullName}
-                  onChange={(e) => setUserSettings({ ...userSettings, fullName: e.target.value })}
+                  onChange={(e) =>
+                    setUserSettings({
+                      ...userSettings,
+                      fullName: e.target.value,
+                    })
+                  }
                 />
                 <Input
                   label="Email"
                   type="email"
                   placeholder="email@contoh.com"
                   value={userSettings.email}
-                  onChange={(e) => setUserSettings({ ...userSettings, email: e.target.value })}
+                  onChange={(e) =>
+                    setUserSettings({ ...userSettings, email: e.target.value })
+                  }
                 />
                 <Input
                   label="Telepon"
                   placeholder="+62 812 3456 7890"
                   value={userSettings.phone}
-                  onChange={(e) => setUserSettings({ ...userSettings, phone: e.target.value })}
+                  onChange={(e) =>
+                    setUserSettings({ ...userSettings, phone: e.target.value })
+                  }
                 />
               </div>
             </SettingSection>
@@ -284,7 +345,7 @@ export default function SettingsPage() {
         )}
 
         {/* Notifications Tab */}
-        {activeTab === 'notifications' && (
+        {activeTab === "notifications" && (
           <SettingSection
             icon={Bell}
             title="Notifikasi"
@@ -293,27 +354,30 @@ export default function SettingsPage() {
             <div className="space-y-4">
               {[
                 {
-                  key: 'emailNotifications',
-                  label: 'Email Notifikasi',
-                  description: 'Terima notifikasi via email'
+                  key: "emailNotifications",
+                  label: "Email Notifikasi",
+                  description: "Terima notifikasi via email",
                 },
                 {
-                  key: 'invoiceReminders',
-                  label: 'Invoice Reminders',
-                  description: 'Pengingat untuk invoice yang akan jatuh tempo'
+                  key: "invoiceReminders",
+                  label: "Invoice Reminders",
+                  description: "Pengingat untuk invoice yang akan jatuh tempo",
                 },
                 {
-                  key: 'paymentNotifications',
-                  label: 'Notifikasi Pembayaran',
-                  description: 'Pemberitahuan ketika ada pembayaran masuk'
+                  key: "paymentNotifications",
+                  label: "Notifikasi Pembayaran",
+                  description: "Pemberitahuan ketika ada pembayaran masuk",
                 },
                 {
-                  key: 'newsletterSubscription',
-                  label: 'Newsletter',
-                  description: 'Tips dan update terbaru tentang InvoiceEase'
-                }
+                  key: "newsletterSubscription",
+                  label: "Newsletter",
+                  description: "Tips dan update terbaru tentang InvoiceEase",
+                },
               ].map((item) => (
-                <div key={item.key} className="flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors">
+                <div
+                  key={item.key}
+                  className="flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors"
+                >
                   <div>
                     <p className="font-medium text-slate-900 dark:text-white">
                       {item.label}
@@ -325,11 +389,17 @@ export default function SettingsPage() {
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={notificationSettings[item.key as keyof NotificationSettings]}
-                      onChange={(e) => setNotificationSettings({
-                        ...notificationSettings,
-                        [item.key]: e.target.checked
-                      })}
+                      checked={
+                        notificationSettings[
+                          item.key as keyof NotificationSettings
+                        ]
+                      }
+                      onChange={(e) =>
+                        setNotificationSettings({
+                          ...notificationSettings,
+                          [item.key]: e.target.checked,
+                        })
+                      }
                       className="w-5 h-5 rounded"
                     />
                   </label>
@@ -340,7 +410,7 @@ export default function SettingsPage() {
         )}
 
         {/* Appearance Tab */}
-        {activeTab === 'appearance' && (
+        {activeTab === "appearance" && (
           <div className="space-y-6">
             <SettingSection
               icon={Palette}
@@ -349,20 +419,26 @@ export default function SettingsPage() {
             >
               <div className="space-y-3">
                 {[
-                  { value: 'light', label: '☀️ Light', color: 'bg-white' },
-                  { value: 'dark', label: '🌙 Dark', color: 'bg-slate-900' },
-                  { value: 'auto', label: '⚙️ Auto', color: 'bg-linear-to-r from-white to-slate-900' }
+                  { value: "light", label: "☀️ Light", color: "bg-white" },
+                  { value: "dark", label: "🌙 Dark", color: "bg-slate-900" },
+                  {
+                    value: "auto",
+                    label: "⚙️ Auto",
+                    color: "bg-linear-to-r from-white to-slate-900",
+                  },
                 ].map((option) => (
                   <button
                     key={option.value}
                     onClick={() => setTheme(option.value)}
                     className={`w-full p-3 rounded-lg border-2 transition-all text-left flex items-center gap-3 ${
                       theme === option.value
-                        ? 'border-rose-500 bg-rose-50 dark:bg-rose-900/20'
-                        : 'border-slate-200 dark:border-slate-700 hover:border-rose-300'
+                        ? "border-rose-500 bg-rose-50 dark:bg-rose-900/20"
+                        : "border-slate-200 dark:border-slate-700 hover:border-rose-300"
                     }`}
                   >
-                    <div className={`w-12 h-12 rounded ${option.color} border border-slate-300`}></div>
+                    <div
+                      className={`w-12 h-12 rounded ${option.color} border border-slate-300`}
+                    ></div>
                     <span className="font-medium text-slate-900 dark:text-white">
                       {option.label}
                     </span>
@@ -380,8 +456,8 @@ export default function SettingsPage() {
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
                 options={[
-                  { value: 'id', label: '🇮🇩 Bahasa Indonesia' },
-                  { value: 'en', label: '🇬🇧 English' }
+                  { value: "id", label: "🇮🇩 Bahasa Indonesia" },
+                  { value: "en", label: "🇬🇧 English" },
                 ]}
               />
             </SettingSection>
@@ -391,14 +467,11 @@ export default function SettingsPage() {
 
       {/* Save Button */}
       <div className="flex justify-end sticky bottom-0 bg-white dark:bg-slate-900 pt-4 border-t border-slate-200 dark:border-slate-700 -mx-6 px-6 py-4">
-        <Button
-          onClick={handleSave}
-          disabled={isSaving}
-        >
+        <Button onClick={handleSave} disabled={isSaving}>
           <Save size={18} className="mr-2" />
-          {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
+          {isSaving ? "Menyimpan..." : "Simpan Perubahan"}
         </Button>
       </div>
     </div>
-  )
+  );
 }

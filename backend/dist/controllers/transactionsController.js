@@ -11,8 +11,12 @@ const listTransactions = async (req, res, next) => {
         const userId = req.userId;
         const skip = Number(req.query.skip || 0);
         const limit = Number(req.query.limit || 10);
-        const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
-        const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+        const startDate = req.query.startDate
+            ? new Date(req.query.startDate)
+            : null;
+        const endDate = req.query.endDate
+            ? new Date(req.query.endDate)
+            : null;
         const type = req.query.type;
         const category = req.query.category;
         // Build filter
@@ -20,7 +24,7 @@ const listTransactions = async (req, res, next) => {
         if (startDate && endDate) {
             filter.date = { $gte: startDate, $lte: endDate };
         }
-        if (type && type !== 'ALL') {
+        if (type && type !== "ALL") {
             // Accept both uppercase (frontend) and lowercase (DB) formats
             filter.type = type.toUpperCase();
         }
@@ -33,7 +37,7 @@ const listTransactions = async (req, res, next) => {
                 .skip(skip)
                 .limit(limit)
                 .lean(),
-            Transaction_1.default.countDocuments(filter)
+            Transaction_1.default.countDocuments(filter),
         ]);
         const pages = Math.ceil(total / limit);
         res.json({
@@ -43,8 +47,8 @@ const listTransactions = async (req, res, next) => {
                 total,
                 skip,
                 limit,
-                pages
-            }
+                pages,
+            },
         });
     }
     catch (err) {
@@ -59,10 +63,12 @@ const getTransaction = async (req, res, next) => {
         const { id } = req.params;
         const transaction = await Transaction_1.default.findOne({
             _id: id,
-            user: userId
+            user: userId,
         });
         if (!transaction) {
-            return res.status(404).json({ success: false, message: 'Transaction not found' });
+            return res
+                .status(404)
+                .json({ success: false, message: "Transaction not found" });
         }
         res.json({ success: true, data: transaction });
     }
@@ -92,10 +98,12 @@ const updateTransaction = async (req, res, next) => {
         // Verify ownership
         const transaction = await Transaction_1.default.findOne({
             _id: id,
-            user: userId
+            user: userId,
         });
         if (!transaction) {
-            return res.status(404).json({ success: false, message: 'Transaction not found' });
+            return res
+                .status(404)
+                .json({ success: false, message: "Transaction not found" });
         }
         // Update allowed fields only
         const updateData = {
@@ -104,9 +112,11 @@ const updateTransaction = async (req, res, next) => {
             amount: req.body.amount || transaction.amount,
             category: req.body.category || transaction.category,
             notes: req.body.notes || transaction.notes,
-            currency: req.body.currency || transaction.currency
+            currency: req.body.currency || transaction.currency,
         };
-        const updated = await Transaction_1.default.findByIdAndUpdate(id, updateData, { new: true });
+        const updated = await Transaction_1.default.findByIdAndUpdate(id, updateData, {
+            new: true,
+        });
         res.json({ success: true, data: updated });
     }
     catch (err) {
@@ -122,13 +132,15 @@ const deleteTransaction = async (req, res, next) => {
         // Verify ownership
         const transaction = await Transaction_1.default.findOne({
             _id: id,
-            user: userId
+            user: userId,
         });
         if (!transaction) {
-            return res.status(404).json({ success: false, message: 'Transaction not found' });
+            return res
+                .status(404)
+                .json({ success: false, message: "Transaction not found" });
         }
         await Transaction_1.default.findByIdAndDelete(id);
-        res.json({ success: true, message: 'Transaction deleted successfully' });
+        res.json({ success: true, message: "Transaction deleted successfully" });
     }
     catch (err) {
         next(err);

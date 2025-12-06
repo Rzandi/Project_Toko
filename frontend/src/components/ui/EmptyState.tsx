@@ -1,15 +1,15 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from "react";
+import { motion } from "framer-motion";
 
 interface EmptyStateProps {
-  icon?: React.ReactNode
-  title: string
-  description?: string
+  icon?: React.ReactNode;
+  title: string;
+  description?: string;
   action?: {
-    label: string
-    onClick: () => void
-  }
-  variant?: 'default' | 'search' | 'error'
+    label: string;
+    onClick: () => void;
+  };
+  variant?: "default" | "search" | "error";
 }
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
@@ -17,13 +17,13 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
   action,
-  variant = 'default'
+  variant = "default",
 }) => {
   const variantClasses = {
-    default: 'text-slate-400 dark:text-slate-500',
-    search: 'text-cyan-400 dark:text-cyan-500',
-    error: 'text-red-400 dark:text-red-500'
-  }
+    default: "text-slate-400 dark:text-slate-500",
+    search: "text-cyan-400 dark:text-cyan-500",
+    error: "text-red-400 dark:text-red-500",
+  };
 
   return (
     <motion.div
@@ -38,9 +38,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <div className="w-20 h-20 mx-auto">
-            {icon}
-          </div>
+          <div className="w-20 h-20 mx-auto">{icon}</div>
         </motion.div>
       )}
 
@@ -69,7 +67,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         </button>
       )}
     </motion.div>
-  )
-}
+  );
+};
 
-export default EmptyState
+export default EmptyState;

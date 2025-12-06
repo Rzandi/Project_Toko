@@ -1,11 +1,11 @@
-import { useState, useCallback } from 'react';
-import api from '../services/api';
+import { useState, useCallback } from "react";
+import api from "../services/api";
 
 export interface Transaction {
   _id: string;
   user: string;
   date: string;
-  type: 'INCOME' | 'EXPENSE';
+  type: "INCOME" | "EXPENSE";
   category: string;
   description: string;
   amount: number;
@@ -19,7 +19,7 @@ export interface Transaction {
 export interface TransactionFilters {
   startDate?: string;
   endDate?: string;
-  type?: 'INCOME' | 'EXPENSE' | '';
+  type?: "INCOME" | "EXPENSE" | "";
   category?: string;
   skip?: number;
   limit?: number;
@@ -56,20 +56,23 @@ export const useTransactions = () => {
       setError(null);
       try {
         const params = new URLSearchParams();
-        
-        if (filters.startDate) params.append('startDate', filters.startDate);
-        if (filters.endDate) params.append('endDate', filters.endDate);
-        if (filters.type) params.append('type', filters.type);
-        if (filters.category) params.append('category', filters.category);
-        if (filters.skip !== undefined) params.append('skip', String(filters.skip));
-        if (filters.limit) params.append('limit', String(filters.limit));
+
+        if (filters.startDate) params.append("startDate", filters.startDate);
+        if (filters.endDate) params.append("endDate", filters.endDate);
+        if (filters.type) params.append("type", filters.type);
+        if (filters.category) params.append("category", filters.category);
+        if (filters.skip !== undefined)
+          params.append("skip", String(filters.skip));
+        if (filters.limit) params.append("limit", String(filters.limit));
 
         const response = await api.get<TransactionResponse>(
-          `/transactions?${params.toString()}`
+          `/transactions?${params.toString()}`,
         );
 
         if (response.data.success) {
-          setTransactions(Array.isArray(response.data.data) ? response.data.data : []);
+          setTransactions(
+            Array.isArray(response.data.data) ? response.data.data : [],
+          );
           if (response.data.pagination) {
             setPagination(response.data.pagination);
           }
@@ -78,22 +81,27 @@ export const useTransactions = () => {
         const message =
           err.response?.data?.message ||
           err.message ||
-          'Gagal mengambil data transaksi';
+          "Gagal mengambil data transaksi";
         setError(message);
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Create new transaction
   const createTransaction = useCallback(
-    async (data: Omit<Transaction, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
+    async (
+      data: Omit<Transaction, "id" | "userId" | "createdAt" | "updatedAt">,
+    ) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.post<TransactionResponse>('/transactions', data);
+        const response = await api.post<TransactionResponse>(
+          "/transactions",
+          data,
+        );
 
         if (response.data.success) {
           const newTransaction = response.data.data as Transaction;
@@ -104,34 +112,36 @@ export const useTransactions = () => {
         const message =
           err.response?.data?.message ||
           err.message ||
-          'Gagal membuat transaksi';
+          "Gagal membuat transaksi";
         setError(message);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Update transaction
   const updateTransaction = useCallback(
     async (
       id: string,
-      data: Partial<Omit<Transaction, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>
+      data: Partial<
+        Omit<Transaction, "id" | "userId" | "createdAt" | "updatedAt">
+      >,
     ) => {
       setLoading(true);
       setError(null);
       try {
         const response = await api.put<TransactionResponse>(
           `/transactions/${id}`,
-          data
+          data,
         );
 
         if (response.data.success) {
           const updatedTransaction = response.data.data as Transaction;
           setTransactions((prev) =>
-            prev.map((t) => (t._id === id ? updatedTransaction : t))
+            prev.map((t) => (t._id === id ? updatedTransaction : t)),
           );
           return updatedTransaction;
         }
@@ -139,14 +149,14 @@ export const useTransactions = () => {
         const message =
           err.response?.data?.message ||
           err.message ||
-          'Gagal memperbarui transaksi';
+          "Gagal memperbarui transaksi";
         setError(message);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   // Delete transaction
@@ -155,7 +165,7 @@ export const useTransactions = () => {
     setError(null);
     try {
       const response = await api.delete<TransactionResponse>(
-        `/transactions/${id}`
+        `/transactions/${id}`,
       );
 
       if (response.data.success) {
@@ -166,7 +176,7 @@ export const useTransactions = () => {
       const message =
         err.response?.data?.message ||
         err.message ||
-        'Gagal menghapus transaksi';
+        "Gagal menghapus transaksi";
       setError(message);
       throw err;
     } finally {
@@ -180,7 +190,7 @@ export const useTransactions = () => {
     setError(null);
     try {
       const response = await api.get<TransactionResponse>(
-        `/transactions/${id}`
+        `/transactions/${id}`,
       );
 
       if (response.data.success) {
@@ -190,7 +200,7 @@ export const useTransactions = () => {
       const message =
         err.response?.data?.message ||
         err.message ||
-        'Gagal mengambil detail transaksi';
+        "Gagal mengambil detail transaksi";
       setError(message);
       throw err;
     } finally {
@@ -203,7 +213,7 @@ export const useTransactions = () => {
     (filters?: TransactionFilters) => {
       return fetchTransactions(filters || {});
     },
-    [fetchTransactions]
+    [fetchTransactions],
   );
 
   return {

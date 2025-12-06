@@ -1,43 +1,42 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Register() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [businessName, setBusinessName] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-  const { register } = useAuth()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
 
-    // Validation
     if (password !== confirmPassword) {
-      setError('Password tidak cocok')
-      return
+      setError("Password tidak sama");
+      return;
     }
 
     if (password.length < 6) {
-      setError('Password minimal 6 karakter')
-      return
+      setError("Password minimal 6 karakter");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
-      await register(email, password, { name: businessName || undefined })
-      navigate('/dashboard')
+      await register(email, password, { name: businessName || undefined });
+      navigate("/settings");
     } catch (err: any) {
-      setError(err.message || 'Registration failed')
+      setError(err.message || "Registration failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-rose-50 via-cyan-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
@@ -46,15 +45,22 @@ export default function Register() {
           {/* Logo / Title */}
           <div className="text-center mb-8">
             <div className="w-12 h-12 rounded-lg bg-linear-to-br from-rose-400 via-cyan-400 to-purple-400 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">InvoiceEase</h1>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Daftar akun baru</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              InvoiceEase
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+              Daftar akun baru
+            </p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="register-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Email
               </label>
               <input
@@ -72,7 +78,10 @@ export default function Register() {
 
             {/* Business Name */}
             <div>
-              <label htmlFor="register-business" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-business"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Nama Bisnis (opsional)
               </label>
               <input
@@ -88,7 +97,10 @@ export default function Register() {
 
             {/* Password */}
             <div>
-              <label htmlFor="register-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Password
               </label>
               <input
@@ -107,7 +119,10 @@ export default function Register() {
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="register-confirm-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="register-confirm-password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >
                 Konfirmasi Password
               </label>
               <input
@@ -137,19 +152,22 @@ export default function Register() {
               disabled={loading}
               className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium rounded-lg transition"
             >
-              {loading ? 'Loading...' : 'Daftar'}
+              {loading ? "Loading..." : "Daftar"}
             </button>
           </form>
 
           {/* Footer */}
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
-            Sudah punya akun?{' '}
-            <Link to="/auth/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
+            Sudah punya akun?{" "}
+            <Link
+              to="/auth/login"
+              className="text-indigo-600 hover:text-indigo-700 font-medium"
+            >
               Login di sini
             </Link>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

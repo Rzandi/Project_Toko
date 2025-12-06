@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { InvoiceFilters } from '../../hooks/useInvoices';
+import React, { useState } from "react";
+import { InvoiceFilters } from "../../hooks/useInvoices";
 
 interface InvoiceFiltersProps {
   isOpen: boolean;
@@ -13,7 +13,7 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
   onFiltersChange,
 }) => {
   const [filters, setFilters] = useState<InvoiceFilters>({
-    status: '',
+    status: "",
     startDate: undefined,
     endDate: undefined,
     clientId: undefined,
@@ -27,7 +27,7 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
 
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: 'startDate' | 'endDate'
+    field: "startDate" | "endDate",
   ) => {
     setFilters({ ...filters, [field]: e.target.value || undefined });
   };
@@ -42,7 +42,7 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
 
   const handleReset = () => {
     const resetFilters: InvoiceFilters = {
-      status: '',
+      status: "",
       startDate: undefined,
       endDate: undefined,
       clientId: undefined,
@@ -61,7 +61,7 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
         className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
       >
         <span>🔽</span>
-        {isOpen ? 'Sembunyikan Filter' : 'Tampilkan Filter'}
+        {isOpen ? "Sembunyikan Filter" : "Tampilkan Filter"}
       </button>
 
       {/* Filter Panel */}
@@ -70,13 +70,16 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Status Filter */}
             <div>
-              <label htmlFor="filter-status" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label
+                htmlFor="filter-status"
+                className="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
+              >
                 Status
               </label>
               <select
                 id="filter-status"
                 name="status"
-                value={filters.status || ''}
+                value={filters.status || ""}
                 onChange={handleStatusChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               >
@@ -89,37 +92,46 @@ export const InvoiceFiltersComponent: React.FC<InvoiceFiltersProps> = ({
 
             {/* Start Date */}
             <div>
-              <label htmlFor="filter-startDate" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label
+                htmlFor="filter-startDate"
+                className="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
+              >
                 Dari Tanggal
               </label>
               <input
                 id="filter-startDate"
                 name="startDate"
                 type="date"
-                value={filters.startDate || ''}
-                onChange={(e) => handleDateChange(e, 'startDate')}
+                value={filters.startDate || ""}
+                onChange={(e) => handleDateChange(e, "startDate")}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
 
             {/* End Date */}
             <div>
-              <label htmlFor="filter-endDate" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label
+                htmlFor="filter-endDate"
+                className="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
+              >
                 Sampai Tanggal
               </label>
               <input
                 id="filter-endDate"
                 name="endDate"
                 type="date"
-                value={filters.endDate || ''}
-                onChange={(e) => handleDateChange(e, 'endDate')}
+                value={filters.endDate || ""}
+                onChange={(e) => handleDateChange(e, "endDate")}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
 
             {/* Items Per Page */}
             <div>
-              <label htmlFor="filter-limit" className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+              <label
+                htmlFor="filter-limit"
+                className="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
+              >
                 Item Per Halaman
               </label>
               <select

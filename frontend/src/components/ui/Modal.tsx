@@ -1,23 +1,23 @@
-import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 interface ModalProps {
-  isOpen: boolean
-  onClose: () => void
-  title?: string
-  children: React.ReactNode
-  footer?: React.ReactNode
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  className?: string
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+  size?: "sm" | "md" | "lg" | "xl";
+  className?: string;
 }
 
 const sizeClasses = {
-  sm: 'max-w-sm',
-  md: 'max-w-md',
-  lg: 'max-w-lg',
-  xl: 'max-w-2xl'
-}
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-2xl",
+};
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -25,8 +25,8 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   footer,
-  size = 'md',
-  className = ''
+  size = "md",
+  className = "",
 }) => {
   return (
     <AnimatePresence>
@@ -70,15 +70,16 @@ export const Modal: React.FC<ModalProps> = ({
                     className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                     aria-label="Close modal"
                   >
-                    <X size={20} className="text-slate-500 dark:text-slate-400" />
+                    <X
+                      size={20}
+                      className="text-slate-500 dark:text-slate-400"
+                    />
                   </button>
                 </div>
               )}
 
               {/* Body */}
-              <div className="p-6">
-                {children}
-              </div>
+              <div className="p-6">{children}</div>
 
               {/* Footer */}
               {footer && (
@@ -91,7 +92,7 @@ export const Modal: React.FC<ModalProps> = ({
         </>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

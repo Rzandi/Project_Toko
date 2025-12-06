@@ -1,13 +1,16 @@
-import React from 'react'
-import { AlertCircle } from 'lucide-react'
+import React from "react";
+import { AlertCircle } from "lucide-react";
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  label?: string
-  error?: string
-  helperText?: string
-  icon?: React.ReactNode
-  variant?: 'default' | 'floating'
-  size?: 'sm' | 'md' | 'lg'
+interface InputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
+  label?: string;
+  error?: string;
+  helperText?: string;
+  icon?: React.ReactNode;
+  variant?: "default" | "floating";
+  size?: "sm" | "md" | "lg";
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -17,18 +20,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       error,
       helperText,
       icon,
-      variant = 'default',
-      size = 'md',
-      className = '',
+      variant = "default",
+      size = "md",
+      className = "",
       ...props
     },
-    ref
+    ref,
   ) => {
     const sizeClasses = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2.5 text-base',
-      lg: 'px-4 py-3 text-lg'
-    }
+      sm: "px-3 py-1.5 text-sm",
+      md: "px-4 py-2.5 text-base",
+      lg: "px-4 py-3 text-lg",
+    };
 
     const baseInputClasses = `
       w-full rounded-lg transition-all duration-200 font-inter
@@ -39,12 +42,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent
       disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed
       ${sizeClasses[size]}
-      ${error ? 'border-red-500 focus:ring-red-500' : ''}
-      ${icon ? 'pl-10' : ''}
+      ${error ? "border-red-500 focus:ring-red-500" : ""}
+      ${icon ? "pl-10" : ""}
       ${className}
-    `
+    `;
 
-    if (variant === 'floating') {
+    if (variant === "floating") {
       return (
         <div className="relative">
           <input
@@ -79,7 +82,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </p>
           )}
         </div>
-      )
+      );
     }
 
     return (
@@ -90,11 +93,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div className="relative">
-          <input
-            ref={ref}
-            {...props}
-            className={baseInputClasses}
-          />
+          <input ref={ref} {...props} className={baseInputClasses} />
           {icon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none">
               {icon}
@@ -117,10 +116,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
-Input.displayName = 'Input'
+Input.displayName = "Input";
 
-export default Input
+export default Input;
